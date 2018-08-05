@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  webapp:
+    build: ./containers/webapp
+    image: xtreme/webapp
+    environment:
+      TZ: "Asia/Tokyo"
+    tty: true
+    stdin_open: true
+    volumes:
+      - xtreme-sync:/xtreme:nocopy
+    depends_on:
+      - db
+    ports:
+      - "20000:3000"
+    command: bundle exec unicorn_rails -E development -c config/unicorn.rb
+
+  db:
+    build: ./containers/db
+    image: xtreme/db
+    environment:
+      TZ: "Asia/Tokyo"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "20050:3306"
+
+volumes:
+  xtreme-sync:
+    external: true
+  db_data: {}
