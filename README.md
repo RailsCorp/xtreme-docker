@@ -30,6 +30,10 @@ $ docker-compose up
 $ docker-compose up -d
 ```
 
+このコマンドで`rails s `が含まれているので、もうする必要はない.
+
+うまくいけば、`localhost:20000`がうまく起動されるはず！
+
 ### 3. 必要なものをインストール
 
 ```
@@ -37,7 +41,7 @@ $ brew install unison
 $ gem install docker-sync
 ```
 
-### 4. ホスト、ローカル感を同期
+### 4. ホスト、ローカル間を同期
 
 ```
 $ docker-sync start
@@ -45,15 +49,37 @@ $ docker-sync start
 
 
 ### 注) なんか困った時のコマンド！
+
+- mysql.sockがない遠これらた時、
+https://qiita.com/musaprg/items/572489a829a7d3b9830d
+
+- まぁ、あんまり変更する必要ないけど、もしdockerfileとかを変更したら、、、
+
 ```
 $ docker-compose up --build
 ```
 
-
-コンテナが起動してるかのプロセスの確認
+- コンテナが起動してるかのプロセスの確認
 ```
 $ docker ps
 ```
+`xtreme-docker_webapp`と`mysql:5.7`があれば問題ない
 
+- dockerのコンテナ内に入る時、
 
-あったら`ok`
+xtreme-docker_webappというコンテナ内にbashを使って入る。
+```
+$ docker exec -it xtreme-docker_webapp bash
+```
+
+### sequel proの設定
+
+```
+名前: localhost
+ホスト: 127.0.0.1
+ユーザ名: root
+パスワード: root
+ポート: 13306
+```
+
+これでログインできる。
